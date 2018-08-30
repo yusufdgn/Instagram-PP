@@ -1,0 +1,46 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<input id="userName" type="text" />
+<input type="submit" Value="Send" onclick="loadProfileImage()" /> 
+<div id="appendHtml" style="margin-top:30px;"></div>
+
+<script>
+    function loadProfileImage(){
+        var userName = jQuery("#userName").val();       
+        jQuery.ajax({
+                method: "GET",
+                url: "https://www.instagram.com/"+userName,
+                crossDomain: true,
+                crossOrigin: true,
+                async: true,
+                success: function (msg) {
+                    var asdsadsa = msg.match(/(window\._sharedData \=) (.*)\}\;<\/script>/gi)[0];
+                    asdsadsa = asdsadsa.replace("window._sharedData =","");
+                    asdsadsa = asdsadsa.replace(";<\/script>", "");
+                    var parseJson = jQuery.parseJSON(asdsadsa);
+                    var userId = parseJson.entry_data.ProfilePage[0].graphql.user.id;
+
+                    jQuery.ajax({
+                        method: "GET",
+                        url: "https://i.instagram.com/api/v1/users/"+userId+"/info/",
+                        crossDomain: true,
+                        crossOrigin: true,
+                        async: true,
+                        success: function (msg) {
+                            //var parseJson2 = jQuery.parseJSON(msg);
+                            //console.log(msg.user.hd_profile_pic_url_info.url);
+                            var htmlData = "<img src=\""+msg.user.hd_profile_pic_url_info.url+"\">";
+                            jQuery("#appendHtml").html(htmlData);
+                        },
+                        error: function (error) {
+                            instadata = error;
+                            console.log("ajax end");
+                        }
+                    });
+                },
+                error: function (error) {
+                    instadata = error;
+                    console.log("ajax end");
+                }
+            });
+    }
+</script>
