@@ -1,7 +1,18 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<input id="userName" type="text" />
-<input type="submit" Value="Send" onclick="loadProfileImage()" /> 
-<div id="appendHtml" style="margin-top:30px;"></div>
+<div class ="wrapper">
+    <div class="info">
+        Resmini görmek istediğiniz instagram hesabının orjinal yüklenen resmini gösterir.
+    </div>
+    <div class="form">
+        <input id="userName" class="username" type="text" placeholder="Instagram Kullanıcı Adı" />
+        <input type="submit" class="submit" Value="Resmini Getir" onclick="loadProfileImage()" /> 
+    </div>
+</div>
+
+<div id="profilePicPanel" class="profilePicPanel">
+    <div id="profilePicViewer" class="profilePicViewer"></div>
+    <div id="profilePicLink" class="profilePicLink"></div>
+</div>
 
 <script>
     function loadProfileImage(){
@@ -13,10 +24,10 @@
                 crossOrigin: true,
                 async: true,
                 success: function (msg) {
-                    var asdsadsa = msg.match(/(window\._sharedData \=) (.*)\}\;<\/script>/gi)[0];
-                    asdsadsa = asdsadsa.replace("window._sharedData =","");
-                    asdsadsa = asdsadsa.replace(";<\/script>", "");
-                    var parseJson = jQuery.parseJSON(asdsadsa);
+                    var regexMsg = msg.match(/(window\._sharedData \=) (.*)\}\;<\/script>/gi)[0];
+                    regexMsg = regexMsg.replace("window._sharedData =","");
+                    regexMsg = regexMsg.replace(";<\/script>", "");
+                    var parseJson = jQuery.parseJSON(regexMsg);
                     var userId = parseJson.entry_data.ProfilePage[0].graphql.user.id;
 
                     jQuery.ajax({
@@ -26,21 +37,81 @@
                         crossOrigin: true,
                         async: true,
                         success: function (msg) {
-                            //var parseJson2 = jQuery.parseJSON(msg);
                             //console.log(msg.user.hd_profile_pic_url_info.url);
-                            var htmlData = "<img src=\""+msg.user.hd_profile_pic_url_info.url+"\">";
-                            jQuery("#appendHtml").html(htmlData);
+                            var htmlData = "<a href=\""+msg.user.hd_profile_pic_url_info.url+"\" target=\"_blank\">Resmi Görüntülemek İçin Buraya Tıklayın</a>";
+                            var htmlImageData = "<a href=\""+msg.user.hd_profile_pic_url_info.url+"\" target=\"_blank\"><img src=\""+msg.user.hd_profile_pic_url_info.url+"\" /></a>";
+                            jQuery("#profilePicLink").html(htmlData);
+                            jQuery("#profilePicViewer").html(htmlImageData);
+                            $("#profilePicPanel").show();
                         },
                         error: function (error) {
-                            instadata = error;
-                            console.log("ajax end");
+                            console.log(error);
                         }
                     });
                 },
                 error: function (error) {
-                    instadata = error;
-                    console.log("ajax end");
+                    console.log(error);
                 }
             });
     }
 </script>
+<style>
+    body {
+        background:  #e0e0eb;
+    }
+
+    .wrapper{
+      border:1px solid  #c1c1d7;
+      margin-left: auto;
+      margin-right: auto;
+      background: #efeff5;
+      width: 600px;
+    }
+
+    .profilePicPanel{
+      margin-top:20px;
+      border:1px solid  #c1c1d7;
+      margin-left: auto;
+      margin-right: auto;
+      background: #efeff5;
+      width: 600px;
+      display: none;
+    }
+
+    .profilePicViewer img {
+        max-width: 580px;
+        height: auto;
+        margin:10px;
+    }
+
+    .info{
+        font-weight: 16px;
+        margin:25px;
+    }
+
+    .form{
+      margin:25px;
+      font-weight:bolder;
+    }
+
+    .username{
+        width:260px;
+        height: 40px;
+        padding: 15px;
+    }
+
+    .profilePicLink{
+        padding:25px;
+    }
+
+    .profilePicLink a{
+        font-size:20px;
+        color:  #0066ff;
+       text-decoration: none;
+    }
+
+    .submit{
+        height: 40px;
+    }
+
+</style>
