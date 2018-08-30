@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Instagram Profil Resmi Gösterme Aracı</title>
+    <title>Instagram Profil Resmi Görüntüleme Aracı</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
     body {
@@ -14,6 +14,7 @@
       margin-right: auto;
       background: #efeff5;
       width: 600px;
+      display: block;
     }
 
     .profilePicPanel{
@@ -41,12 +42,12 @@
     .form{
       margin:25px;
       font-weight:bolder;
+      width:100%;
     }
 
     .username{
-        width:449px;
-        height: 40px;
-        padding: 15px;
+        width:410px;
+        padding: 13px;
     }
 
     .profilePicLink{
@@ -60,26 +61,10 @@
     }
 
     .submit{
-        height: 40px;
+        height: 45px;
     }
 
 </style>
-</head>
-<body>
-<div class ="wrapper">
-    <div class="info">
-        Instagram profil resminin büyük halini gösterir.
-    </div>
-    <div class="form">
-        <input id="userName" class="username" type="text" placeholder="Instagram Kullanıcı Adı" />
-        <button class="submit" onclick="loadProfileImage()" /> Resmini Getir </button>
-    </div>
-</div>
-
-<div id="profilePicPanel" class="profilePicPanel">
-    <div id="profilePicViewer" class="profilePicViewer"></div>
-    <div id="profilePicLink" class="profilePicLink"></div>
-</div>
 
 <script>
     function loadProfileImage(){
@@ -127,5 +112,21 @@
             });
     }
 </script>
+</head>
+<body>
+<div class ="wrapper">
+    <div class="info">
+        Instagram profil resminin büyük halini gösterir.
+    </div>
+    <div class="form">
+        <input id="userName" class="username" type="text" placeholder="Instagram Kullanıcı Adı" />
+        <button class="submit" onclick="loadProfileImage()" /> Resmini Getir </button>
+    </div>
+</div>
+
+<div id="profilePicPanel" class="profilePicPanel">
+    <div id="profilePicViewer" class="profilePicViewer"></div>
+    <div id="profilePicLink" class="profilePicLink"></div>
+</div>
 </body>
 </html>
