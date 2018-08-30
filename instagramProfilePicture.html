@@ -1,7 +1,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <div class ="wrapper">
     <div class="info">
-        Resmini görmek istediğiniz instagram hesabının orjinal yüklenen resmini gösterir.
+        Instagram profil resminin büyük halini gösterir.
     </div>
     <div class="form">
         <input id="userName" class="username" type="text" placeholder="Instagram Kullanıcı Adı" />
@@ -16,7 +16,12 @@
 
 <script>
     function loadProfileImage(){
-        var userName = jQuery("#userName").val();       
+        var userName = jQuery("#userName").val();
+        if(userName == '' || userName === undefined){
+            jQuery("#profilePicLink").html("Boş yapma bilader.");
+            $("#profilePicPanel").show();
+            return;
+        }
         jQuery.ajax({
                 method: "GET",
                 url: "https://www.instagram.com/"+userName,
